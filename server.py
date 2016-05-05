@@ -2,7 +2,6 @@ from flask import Flask
 from pymongo import MongoClient
 from jinja2 import Environment, PackageLoader
 import os
-import datetime
 
 # init globals
 app = Flask(__name__)
@@ -13,8 +12,17 @@ db = client.flaskblog
 @app.route("/")
 def index():
     template = env.get_template('index.html')
-    post = db.posts.find_one({"author":"phip"})
-    return template.render(post)
+    postsCC = db.posts.aggregate(
+      [
+        { "$sort" : { "date" : -1 } },
+        { "$limit" : 5 }
+      ]
+    )
+    latestPosts = []
+    for post in postsCC:
+        latestPosts.append(post)
+        print post
+    return template.render({"posts":latestPosts})
 
 @app.route('/post/<int:post_id>')
 def show_post(post_id):

@@ -1,5 +1,6 @@
 from flask import Flask
 from pymongo import MongoClient
+from jinja2 import Template
 import os
 import datetime
 app = Flask(__name__)
@@ -14,8 +15,14 @@ def hello():
     #     "date": datetime.datetime.utcnow()}
     # post_id = db.posts.insert_one(post).inserted_id
     # print db.collection_names(include_system_collections=False)
-
-    return db.posts.find_one({"author":"phip"})['text']
+    template = Template("""
+        <p>{{ text }}</p>
+        {% for item in tags %}
+            <li><a href="{{ item }}">{{ item }}</a></li>
+        {% endfor %}
+    """)
+    post = db.posts.find_one({"author":"phip"})
+    return template.render(post)
 
 @app.route('/post/<int:post_id>')
 def show_post(post_id):

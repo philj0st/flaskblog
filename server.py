@@ -1,26 +1,18 @@
 from flask import Flask
 from pymongo import MongoClient
-from jinja2 import Template
+from jinja2 import Environment, PackageLoader
 import os
 import datetime
-app = Flask(__name__)
 
+# init globals
+app = Flask(__name__)
 client = MongoClient(os.environ['MONGODB_URI'])
+env = Environment(loader=PackageLoader(__name__, 'templates'))
 db = client.flaskblog
+
 @app.route("/")
-def hello():
-    # post = {"author": "Mike",
-    #     "text": "My first blog post!",
-    #     "tags": ["mongodb", "python", "pymongo"],
-    #     "date": datetime.datetime.utcnow()}
-    # post_id = db.posts.insert_one(post).inserted_id
-    # print db.collection_names(include_system_collections=False)
-    template = Template("""
-        <p>{{ text }}</p>
-        {% for item in tags %}
-            <li><a href="{{ item }}">{{ item }}</a></li>
-        {% endfor %}
-    """)
+def index():
+    template = env.get_template('index.html')
     post = db.posts.find_one({"author":"phip"})
     return template.render(post)
 

@@ -1,0 +1,22 @@
+
+  <div class="post-detail">
+    <a href="/post/{{ id }}">{{ title }}</a>
+    <p>
+      {{ text }}
+    </p>
+    <p>
+      Categories:
+    </p>
+    {% for category in categories %}
+      <li><a href="/category/{{ category }}">{{ category }}</a></li>
+    {% endfor %}
+    <p>
+      Tags:
+    </p>
+    {% for tag in tags %}
+      <li><a href="/tag/{{ tag }}">{{ tag }}</a></li>
+    {% endfor %}
+    <p>
+      {{ date }}
+    </p>
+  </div>

@@ -1,20 +1,18 @@
-{% for post in posts %}
-  <div class="post-preview">
-    <a href="/post/{{ post.id }}">{{ post.title }}</a>
-    Categories:
-    <p>
-      {{ post.category }}
-    </p>
-    Tags:
-    {% for tag in post.tags %}
-      <li><a href="{{ tag }}">{{ tag }}</a></li>
-    {% endfor %}
-    <p>
-      {{ post.tags }}
-    </p>
-    <p>
-      {{ post.date }}
-    </p>
-  </div>
-
-{% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="style/style.css" />
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+</head>
+<body>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+        &copy; Copyright 2016 by <a href="http://phil.jost.rocks/">Phil</a>.
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -11,7 +11,7 @@ db = client.flaskblog
 
 @app.route("/")
 def index():
-    template = env.get_template('index.html')
+    template = env.get_template('post-overview.html')
     postsCC = db.posts.aggregate(
       [
         { "$sort" : { "date" : -1 } },
@@ -26,8 +26,10 @@ def index():
 
 @app.route('/post/<int:post_id>')
 def show_post(post_id):
+    post = db.posts.find_one({"id":post_id})
+    template = env.get_template('post-detail.html')
     # show the post with the given id, the id is an integer
-    return 'fetching Post %d from database' % post_id
+    return template.render(post)
 
 if __name__ == "__main__":
     app.run(debug=True)

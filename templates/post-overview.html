@@ -1,21 +1,10 @@
 {% extends "index.html" %}
 {% block title %}Welcome{% endblock %}
 {% block content %}
+<h3>post overview:</h3>
   {% for post in posts %}
     <div class="post-preview">
       <a href="/post/{{ post.id }}">{{ post.title }}</a>
-      <p>
-        Categories:
-      </p>
-      {% for category in post.categories %}
-        <li><a href="/category/{{ category }}">{{ category }}</a></li>
-      {% endfor %}
-      <p>
-        Tags:
-      </p>
-      {% for tag in post.tags %}
-        <li><a href="/tag/{{ tag }}">{{ tag }}</a></li>
-      {% endfor %}
       <p>
         {{ post.date }}
       </p>
